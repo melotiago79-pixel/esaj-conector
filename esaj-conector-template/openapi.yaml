@@ -1,0 +1,85 @@
+openapi: 3.0.3
+info:
+  title: e-SAJ Connector API
+  version: "0.1.0"
+servers:
+  - url: https://YOUR-RENDER-URL.onrender.com
+paths:
+  /health:
+    get:
+      operationId: health
+      summary: Health check
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+  /consulta:
+    get:
+      operationId: consulta
+      summary: Consulta por NPU
+      parameters:
+        - in: query
+          name: processo
+          required: true
+          schema:
+            type: string
+          description: "Número do processo (NPU/CNJ). Aceita 20 dígitos ou CNJ pontuado."
+      responses:
+        "200":
+          description: Resultado mínimo para o GPT
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ok, numero]
+                properties:
+                  ok:
+                    type: boolean
+                    description: Indica sucesso na consulta
+                  numero:
+                    type: string
+                    description: NPU normalizado no padrão CNJ
+                    example: "1153138-58.2023.8.26.0100"
+                  tribunal:
+                    type: string
+                    nullable: true
+                    example: "TJSP"
+                  grau:
+                    type: string
+                    nullable: true
+                    example: "1GRAU"
+                  url_publica:
+                    type: string
+                    nullable: true
+                  resumo:
+                    type: string
+                    nullable: true
+                  partes:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        nome:
+                          type: string
+                        papel:
+                          type: string
+                  movimentacoes:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        data:
+                          type: string
+                          example: "2025-04-02"
+                        movimento:
+                          type: string
+                  message:
+                    type: string
+                    nullable: true
