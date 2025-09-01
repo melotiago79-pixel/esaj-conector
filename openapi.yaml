@@ -1,9 +1,9 @@
 openapi: 3.0.3
 info:
   title: e-SAJ Connector API
-  version: "0.1.0"
+  version: "0.2.0"
 servers:
-  - url: https://YOUR-RENDER-URL.onrender.com
+  - url: https://esaj-conector.onrender.com
 paths:
   /health:
     get:
@@ -20,6 +20,8 @@ paths:
                   status:
                     type: string
                     example: ok
+                  ts:
+                    type: string
   /consulta:
     get:
       operationId: consulta
@@ -42,10 +44,11 @@ paths:
                 properties:
                   ok:
                     type: boolean
-                    description: Indica sucesso na consulta
+                  status:
+                    type: string
+                    example: online
                   numero:
                     type: string
-                    description: NPU normalizado no padrão CNJ
                     example: "1153138-58.2023.8.26.0100"
                   tribunal:
                     type: string
@@ -55,9 +58,18 @@ paths:
                     type: string
                     nullable: true
                     example: "1GRAU"
-                  url_publica:
+                  fonte:
+                    type: string
+                    example: "render"
+                  ts:
+                    type: string
+                  dados_minimos_disponiveis:
+                    type: boolean
+                    example: true
+                  url_publica_sugerida:
                     type: string
                     nullable: true
+                    example: "https://esaj.tjsp.jus.br/cpopg/open.do"
                   resumo:
                     type: string
                     nullable: true
@@ -77,7 +89,6 @@ paths:
                       properties:
                         data:
                           type: string
-                          example: "2025-04-02"
                         movimento:
                           type: string
                   message:
